@@ -1,4 +1,3 @@
-<script>
 // --- Global State ---
 let currentDate = new Date();
 let currentUser = null; // { uuid, name, photo }
@@ -762,4 +761,3 @@ const API_PASSWORD = '1234';
             closeConfirmModal();
         });
     }
-</script>
