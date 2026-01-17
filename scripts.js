@@ -563,7 +563,13 @@ function renderDayEvents() {
             li.className = 'event-item';
 
             const user = usersMap[evt.userUuid] || { name: '?', photo: '' };
-            const imgHtml = user.photo ? `<img src="${user.photo}" class="event-user-img" style="width:30px;height:30px;border-radius:50%;margin-right:8px;vertical-align:middle;">` : '';
+            // Convert old drive.google.com/uc URL to lh3 format
+            let photoUrl = user.photo;
+            if (photoUrl && photoUrl.includes('drive.google.com/uc?id=')) {
+                const fileId = photoUrl.split('id=')[1];
+                photoUrl = 'https://lh3.googleusercontent.com/d/' + fileId;
+            }
+            const imgHtml = photoUrl ? `<img src="${photoUrl}" class="event-user-img" style="width:30px;height:30px;border-radius:50%;margin-right:8px;vertical-align:middle;">` : '';
 
             // Format time to HH:mm only
             let startTimeFormatted = '';
