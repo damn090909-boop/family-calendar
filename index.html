@@ -52,8 +52,13 @@
             font-size: 12px;
             /* Reverted size */
             height: 100vh;
+            /* Fallback */
+            height: 100dvh;
+            /* Mobile Dynamic Height */
             overflow: hidden;
             /* App-like feel */
+            overscroll-behavior: none;
+            /* Prevent bounce */
         }
 
         /* Scoped Font for Popups */
@@ -937,7 +942,7 @@
         <div id="datePickerModal" class="modal-overlay hidden">
             <div class="modal-box pixel-box">
                 <div class="modal-header">
-                    <h2>TIME TRAVEL</h2>
+                    <h2>시간여행</h2>
                     <button class="close-btn pixel-btn-small">X</button>
                 </div>
                 <div class="modal-content" style="text-align:center;">

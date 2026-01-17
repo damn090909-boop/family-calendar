@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header Date Picker
     document.getElementById('currentDateDisplay').addEventListener('click', openDatePicker);
     document.getElementById('confirmDateBtn').addEventListener('click', confirmDateSelection);
+    document.getElementById('resetDateBtn').addEventListener('click', resetDateSelection);
     document.querySelector('#datePickerModal .close-btn').addEventListener('click', closeDatePicker);
 
     // File Upload
@@ -510,6 +511,22 @@ function confirmDateSelection() {
     const m = parseInt(document.getElementById('monthSelect').value);
     currentDate.setFullYear(y);
     currentDate.setMonth(m);
+    renderCalendar();
+    closeDatePicker();
+}
+
+function resetDateSelection() {
+    // 1. Reset currentDate to Today
+    currentDate = new Date();
+
+    // 2. Update Select Inputs to match Today
+    const todayYear = currentDate.getFullYear();
+    const todayMonth = currentDate.getMonth();
+
+    document.getElementById('yearSelect').value = todayYear;
+    document.getElementById('monthSelect').value = todayMonth;
+
+    // 3. Render and Close
     renderCalendar();
     closeDatePicker();
 }
