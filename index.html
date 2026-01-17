@@ -108,7 +108,7 @@
         .header-section {
             position: relative;
             height: 120px;
-            /* Background image moved to pseudo-element for opacity */
+            /* Background image moved to pseudo-element but let's set it here for reference or just rely on pseudo. Wait, Step 846 shows pseudo has opacity logic. I should add it to the PSEUDO element if I want opacity? Or here? The pseudo element code (lines 123-136) has background-size/position but NO IMAGE. Using pseudo is better for opacity. */
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -127,6 +127,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            background-image: url('https://drive.google.com/uc?id=1opUyQIvMrduHrRKnhokLrRBI3EIf_5AD');
             background-size: cover;
             background-position: center;
             opacity: 0.8;
@@ -753,9 +754,11 @@
 
     <div id="app-container">
         <!-- 1. Castle Header Section -->
+        <!-- 1. Castle Header Section -->
         <header class="header-section" id="headerSection">
-            <div class="family-photo-container" id="familyPhotoContainer" style="display:none;">
-                <img src="" alt="Family" class="family-photo" id="familyPhotoImg">
+            <div class="family-photo-container" id="familyPhotoContainer" style="display:block;">
+                <img src="https://drive.google.com/uc?id=1EKMATRuvFV3zdC8oIvqT9fDAwZRoCK75" alt="Family"
+                    class="family-photo" id="familyPhotoImg">
             </div>
             <h1 class="month-title" id="currentDateDisplay">2026<span class="small-label">YEAR</span><br>1<span
                     class="small-label">MONTH</span></h1>

@@ -5,7 +5,8 @@ let eventsMap = {}; // Key: 'YYYY-MM-DD', Value: Array of events
 let usersMap = {}; // Key: UserUUID, Value: { name, photo }
 
 // --- API Configuration ---
-const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbzaBY9g7poVAZjxEWZrcgCkBq3kz5mIgvv4VqrU6KcOBI2FAsUyKDki6_0CuNqx64CF/exec';
+// --- API Configuration ---
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbx6nGgLko0sgFlI6mpPPO7V0yg2v0sEYWIwqkdmsipnzn9OUr1EVMfU40NXTV128OvQ/exec';
 const API_PASSWORD = '1234';
 
 // Deletion State
