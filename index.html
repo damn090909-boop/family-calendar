@@ -113,6 +113,8 @@
         .header-section {
             position: relative;
             height: 120px;
+            background-size: cover;
+            background-position: center bottom;
             /* Background image moved to pseudo-element but let's set it here for reference or just rely on pseudo. Wait, Step 846 shows pseudo has opacity logic. I should add it to the PSEUDO element if I want opacity? Or here? The pseudo element code (lines 123-136) has background-size/position but NO IMAGE. Using pseudo is better for opacity. */
             flex-shrink: 0;
             display: flex;
