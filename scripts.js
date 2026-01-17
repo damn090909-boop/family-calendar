@@ -93,8 +93,8 @@ function initApp() {
     loadUserFromStorage();
     console.log('currentUser after load:', currentUser);
 
-    // Load initial data safely
-    loadInitialData();
+    // 1. Load from Cache (For instant render)
+    loadEventsFromStorage();
 
     // Render calendar first (always)
     renderCalendar();
@@ -105,11 +105,13 @@ function initApp() {
     } else {
         console.log('User exists');
         updateUserDisplay();
-        loadData(); // Fetch latest data from server
+        loadData(); // Fetch latest data from server (Background update)
     }
 }
 
 function loadInitialData() {
+    // Legacy support or fallback if needed
+    // ... (Keep existing implementation or simplify)
     try {
         const eventsDataElement = document.getElementById('initialEventsData');
         const usersDataElement = document.getElementById('initialUsersData');
@@ -139,8 +141,8 @@ function loadInitialData() {
         }
     } catch (e) {
         console.error('Error in loadInitialData:', e);
-        eventsMap = {};
-        usersMap = {};
+        // eventsMap = {}; // Don't reset if we loaded from cache
+        // usersMap = {};
     }
 }
 
@@ -171,6 +173,9 @@ function loadData() {
                 // Load users
                 usersMap = { ...data.users }; // 객체 복사
                 console.log('Users loaded:', Object.keys(usersMap).length, 'users');
+
+                // Update Cache
+                saveEventsToStorage(eventsMap, usersMap);
 
                 // Re-render day events popup first (faster response)
                 if (selectedDateKey && !document.getElementById('dayModal').classList.contains('hidden')) {
@@ -291,6 +296,34 @@ function handleRegistration() {
 function updateUserDisplay() {
     if (!currentUser) return;
     // Logic removed from header, but function kept to prevent errors if called
+}
+
+// --- Caching Logic ---
+function saveEventsToStorage(events, users) {
+    try {
+        localStorage.setItem('familyCalendar_events', JSON.stringify(events));
+        localStorage.setItem('familyCalendar_users', JSON.stringify(users));
+    } catch (e) {
+        console.error('Failed to save to cache:', e);
+    }
+}
+
+function loadEventsFromStorage() {
+    try {
+        const cachedEvents = localStorage.getItem('familyCalendar_events');
+        const cachedUsers = localStorage.getItem('familyCalendar_users');
+
+        if (cachedEvents) {
+            eventsMap = JSON.parse(cachedEvents);
+            console.log('Loaded events from cache');
+        }
+        if (cachedUsers) {
+            usersMap = JSON.parse(cachedUsers);
+            console.log('Loaded users from cache');
+        }
+    } catch (e) {
+        console.error('Failed to load from cache:', e);
+    }
 }
 
 // --- Calendar & formatting ---
