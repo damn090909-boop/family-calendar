@@ -726,20 +726,8 @@
         </header>
         
         <script>
-            // Set header background image with proper opacity via ::before pseudo-element
-            <? if (headerBgUrl) { ?>
-            const style = document.createElement('style');
-            style.textContent = `.header-section::before { background-image: url('<?= headerBgUrl ?>'); }`;
-            document.head.appendChild(style);
-            <? } ?>
-            
-            // Set family photo
-            <? if (familyPhotoUrl) { ?>
-            const familyImg = document.getElementById('familyPhotoImg');
-            const familyContainer = document.getElementById('familyPhotoContainer');
-            familyImg.src = '<?= familyPhotoUrl ?>';
-            familyContainer.style.display = 'block';
-            <? } ?>
+            // GAS Template logic removed for frontend compatibility
+            // Header BG and Family Photo initialization should be handled via API data if needed.
         </script>
 
         <!-- 2. Main Content (Calendar) -->
