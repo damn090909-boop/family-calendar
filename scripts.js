@@ -123,7 +123,7 @@ function loadInitialData() {
                     console.log('Loading', eventsData.length, 'events from template');
                     eventsMap = {};
                     eventsData.forEach(evt => {
-                        const dateKey = formatDateKey(new Date(evt.date));
+                        const dateKey = evt.date; // Use raw string from server (YYYY-MM-DD)
                         if (!eventsMap[dateKey]) eventsMap[dateKey] = [];
                         eventsMap[dateKey].push(evt);
                     });
@@ -158,7 +158,7 @@ function loadData() {
                 eventsMap = {};
                 data.events.forEach(evt => {
                     try {
-                        const dateKey = formatDateKey(new Date(evt.date));
+                        const dateKey = evt.date; // Use raw string from server (YYYY-MM-DD)
                         if (!eventsMap[dateKey]) eventsMap[dateKey] = [];
                         eventsMap[dateKey].push(evt);
                         console.log('Event loaded:', dateKey, evt.title);
