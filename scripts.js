@@ -12,6 +12,10 @@ const API_PASSWORD = '1234';
 // Deletion State
 let eventToDelete = null; // { dateKey, index }
 
+// --- Image Constants ---
+const HEADER_IMAGE_URL = 'https://lh3.googleusercontent.com/d/1opUyQIvMrduHrRKnhokLrRBI3EIf_5AD';
+const FAMILY_PHOTO_URL = 'https://lh3.googleusercontent.com/d/1EKMATRuvFV3zdC8oIvqT9fDAwZRoCK75';
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
@@ -96,6 +100,7 @@ function initApp() {
 
     // 1. Load from Cache (For instant render)
     loadEventsFromStorage();
+    loadImagesFromCache(); // Load images instantly
 
     // Render calendar first (always)
     renderCalendar();
@@ -324,6 +329,55 @@ function loadEventsFromStorage() {
         }
     } catch (e) {
         console.error('Failed to load from cache:', e);
+    }
+}
+
+function loadImagesFromCache() {
+    processImageCache('cached_header_bg', HEADER_IMAGE_URL, '.header-section', true);
+    processImageCache('cached_family_photo', FAMILY_PHOTO_URL, '#familyPhotoImg', false);
+}
+
+function processImageCache(key, url, selector, isBg) {
+    const cached = localStorage.getItem(key);
+    const element = document.querySelector(selector);
+
+    if (cached) {
+        // Cache Hit: Apply immediately
+        console.log('Image loaded from cache:', key);
+        applyImage(element, cached, isBg);
+    } else {
+        // Cache Miss: Fetch and cache
+        console.log('Image cache miss, fetching:', key);
+        fetchAndCacheImage(key, url, element, isBg);
+    }
+}
+
+function fetchAndCacheImage(key, url, element, isBg) {
+    if (!element) return;
+
+    // Initial load from URL (browser handles duplicate request optimization usually)
+    // But to cache as dataURL, we need to fetch as blob
+    fetch(url)
+        .then(response => response.blob())
+        .then(blob => {
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                const base64data = reader.result;
+                localStorage.setItem(key, base64data);
+                applyImage(element, base64data, isBg);
+                console.log('Image cached:', key);
+            }
+            reader.readAsDataURL(blob);
+        })
+        .catch(e => console.error('Failed to cache image:', url, e));
+}
+
+function applyImage(element, data, isBg) {
+    if (!element) return;
+    if (isBg) {
+        element.style.backgroundImage = `url(${data})`;
+    } else {
+        element.src = data;
     }
 }
 
