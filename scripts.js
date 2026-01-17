@@ -633,7 +633,7 @@ function renderDayEvents() {
                     <div class="event-info" style="display:flex; align-items:center;">
                         ${imgHtml} 
                         ${timeHtml}
-                        <span style="vertical-align:middle;">${evt.title}</span>
+                        <span style="vertical-align:middle; font-size:calc(1em + 1.5px);">${evt.title}</span>
                     </div>
                     <div class="event-actions">
                         <span class="action-icon" onclick="event.stopPropagation(); openEditEventForm(${index})">✏️</span>
