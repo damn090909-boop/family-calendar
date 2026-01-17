@@ -105,6 +105,7 @@ function initApp() {
     } else {
         console.log('User exists');
         updateUserDisplay();
+        loadData(); // Fetch latest data from server
     }
 }
 
