@@ -253,7 +253,7 @@ function handleRegistration() {
     btn.disabled = true;
 
     // Register user using fetch
-    fetch(API_BASE_URL, {
+    fetch(`${API_BASE_URL}?pw=${API_PASSWORD}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
@@ -671,7 +671,7 @@ function saveEvent() {
 
     } else {
         // New Event - Save using fetch
-        fetch(API_BASE_URL, {
+        fetch(`${API_BASE_URL}?pw=${API_PASSWORD}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'text/plain;charset=utf-8',
@@ -731,7 +731,7 @@ function confirmDelete() {
     if (!evt) return;
 
     // Server delete using fetch
-    fetch(API_BASE_URL, {
+    fetch(`${API_BASE_URL}?pw=${API_PASSWORD}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'text/plain;charset=utf-8',
