@@ -872,6 +872,17 @@ function saveEvent() {
                 if (data.success) {
                     console.log('Event saved successfully, reloading data...');
 
+                    // Generate .ics file if alarm is enabled
+                    if (alarm > 0) {
+                        generateICS({
+                            date: startDate,
+                            startTime: startTime,
+                            endTime: endTime,
+                            title: title,
+                            alarm: alarm
+                        });
+                    }
+
                     // Reload data from server to get fresh data
                     loadData();
 
@@ -880,16 +891,48 @@ function saveEvent() {
                     btn.disabled = false;
                     btn.textContent = '일정 추가';
                 } else {
-                    throw new Error(data.error || 'Save failed');
+                    throw new Error(data.error || 'Failed to save event');
                 }
             })
-            .catch(error => {
-                console.error('Event save failed:', error);
-                alert('일정 저장에 실패했습니다. 다시 시도해주세요.');
+            .catch(err => {
+                alert('일정 저장 오류: ' + err.message);
                 btn.disabled = false;
                 btn.textContent = '일정 추가';
             });
     }
+}
+
+function generateICS(event) {
+    // Format date and time for ICS (YYYYMMDDTHHMMSS)
+    const dateStr = event.date.replace(/-/g, '');
+    const startTimeStr = event.startTime.replace(/:/g, '') + '00';
+    const endTimeStr = event.endTime.replace(/:/g, '') + '00';
+
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Family Calendar//EN
+BEGIN:VEVENT
+DTSTART:${dateStr}T${startTimeStr}
+DTEND:${dateStr}T${endTimeStr}
+SUMMARY:${event.title}
+BEGIN:VALARM
+TRIGGER:-PT${event.alarm}M
+ACTION:DISPLAY
+DESCRIPTION:${event.title}
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+    // Create blob and download
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${event.title}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
 }
 
 // --- Delete Logic ---
