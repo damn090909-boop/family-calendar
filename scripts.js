@@ -45,6 +45,36 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regName').addEventListener('input', updateSaveButton);
     document.getElementById('regPhotoFile').addEventListener('change', updateSaveButton);
     document.getElementById('regPhotoAlbum').addEventListener('change', updateSaveButton);
+
+    // Swipe gesture for month navigation
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const calendarGrid = document.getElementById('calendarGrid');
+
+    calendarGrid.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    calendarGrid.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                // Swipe left - next month
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            } else {
+                // Swipe right - previous month
+                currentDate.setMonth(currentDate.getMonth() - 1);
+            }
+            renderCalendar();
+        }
+    }
 });
 
 function updateSaveButton() {
