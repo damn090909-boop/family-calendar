@@ -931,11 +931,14 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
-    // Create blob URL for iOS compatibility
+    // iOS calendar integration disabled due to layout issues
+    // The alarm value is still saved to the backend
+    // Users can manually add events to their calendar if needed
+
+    /* Disabled .ics generation to prevent layout disruption
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-
-    // Use hidden iframe to trigger download without navigation
+    
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.style.width = '0';
@@ -944,14 +947,14 @@ END:VCALENDAR`;
     iframe.style.top = '-9999px';
     iframe.src = url;
     document.body.appendChild(iframe);
-
-    // Clean up after a delay
+    
     setTimeout(() => {
         if (iframe.parentNode) {
             document.body.removeChild(iframe);
         }
         URL.revokeObjectURL(url);
     }, 2000);
+    */
 }
 
 // --- Delete Logic ---
