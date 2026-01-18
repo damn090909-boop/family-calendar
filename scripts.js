@@ -927,11 +927,17 @@ END:VCALENDAR`;
     const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
     const url = URL.createObjectURL(blob);
 
-    // Use location.href to trigger iOS calendar integration
-    window.location.href = url;
+    // Use hidden iframe to trigger download without navigation
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+    document.body.appendChild(iframe);
 
     // Clean up after a delay
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+        URL.revokeObjectURL(url);
+    }, 2000);
 }
 
 // --- Delete Logic ---
