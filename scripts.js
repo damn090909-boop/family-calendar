@@ -838,26 +838,48 @@ function saveEvent() {
     // Since we are strictly UI focused per instructions and cannot mod backend:
 
     if (isEdit) {
-        // Update Local Only (Simulation)
+        // Update Event on Server
         const evt = eventsMap[selectedDateKey][editIndex];
-        evt.title = title;
-        evt.color = color;
-        evt.date = startDate;
-        evt.startTime = startTime; // Update local
-        evt.endTime = endTime;     // Update local
+        const eventId = evt.title; // Using title as temporary ID
 
-        // If date changed, move event
-        if (startDate !== selectedDateKey) {
-            eventsMap[selectedDateKey].splice(editIndex, 1);
-            if (!eventsMap[startDate]) eventsMap[startDate] = [];
-            eventsMap[startDate].push(evt);
-        }
+        fetch(`${API_BASE_URL}?pw=${API_PASSWORD}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8',
+            },
+            body: JSON.stringify({
+                action: 'updateEvent',
+                eventId: eventId,
+                title: title,
+                dateString: startDate,
+                startTime: startTime,
+                endTime: endTime,
+                color: color,
+                alarm: alarm
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Event updated successfully');
 
-        closeEditor();
-        renderDayEvents();
-        renderCalendar();
-        btn.disabled = false;
-        btn.textContent = '일정 추가';
+                    // Reload data from server
+                    loadData();
+
+                    closeEditor();
+                    renderDayEvents();
+                    btn.disabled = false;
+                    btn.textContent = '일정 추가';
+                } else {
+                    throw new Error(data.error || 'Update failed');
+                }
+            })
+            .catch(error => {
+                console.error('Update error:', error);
+                alert('일정 수정 실패: ' + error.message);
+                btn.disabled = false;
+                btn.textContent = '일정 추가';
+            });
 
     } else {
         // New Event - Save using fetch
