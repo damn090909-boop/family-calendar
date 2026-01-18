@@ -938,12 +938,18 @@ END:VCALENDAR`;
     // Use hidden iframe to trigger download without navigation
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-9999px';
     iframe.src = url;
     document.body.appendChild(iframe);
 
     // Clean up after a delay
     setTimeout(() => {
-        document.body.removeChild(iframe);
+        if (iframe.parentNode) {
+            document.body.removeChild(iframe);
+        }
         URL.revokeObjectURL(url);
     }, 2000);
 }
