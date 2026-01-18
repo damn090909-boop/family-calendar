@@ -199,10 +199,9 @@
 
         /* Calendar Grid Container */
         .calendar-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-            padding-bottom: 0;
+            flex-grow: 1;
+            background-color: var(--bg-color);
+            padding: 0;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -646,11 +645,22 @@
             gap: 5px;
         }
 
-        .date-time-row input {
-            width: 50%;
+        width: 50%;
         }
 
         /* Color Picker: 5 columns for 10 items = 2 rows */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: auto repeat(6, 1fr);
+            gap: 2px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
         .color-picker-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
