@@ -113,6 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Handle iOS calendar return - reload data when page becomes visible again
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && currentUser) {
+        console.log('Page became visible, reloading data...');
+        loadData();
+    }
+});
+
 function updateSaveButton() {
     const name = document.getElementById('regName').value.trim();
     const photoBase64 = document.getElementById('regPhotoBase64').value;
