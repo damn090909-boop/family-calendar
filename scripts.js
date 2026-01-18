@@ -948,9 +948,22 @@ function closeConfirmModal() {
 function confirmDelete() {
     if (!eventToDelete) return;
 
+    // Get button and update state
+    const btn = document.getElementById('confirmDeleteYes');
+    btn.textContent = '삭제중..';
+    btn.disabled = true;
+    btn.style.backgroundColor = '#666';
+    btn.style.transform = 'scale(0.95)';
+
     // Get event details for server deletion
     const evt = eventsMap[eventToDelete.dateKey][eventToDelete.index];
-    if (!evt) return;
+    if (!evt) {
+        btn.textContent = '삭제';
+        btn.disabled = false;
+        btn.style.backgroundColor = '';
+        btn.style.transform = '';
+        return;
+    }
 
     // Server delete using fetch
     fetch(`${API_BASE_URL}?pw=${API_PASSWORD}`, {
@@ -969,17 +982,32 @@ function confirmDelete() {
                 console.log('Event deleted from server');
                 // Local delete
                 eventsMap[eventToDelete.dateKey].splice(eventToDelete.index, 1);
+                saveEventsToStorage(eventsMap, usersMap);
 
+                closeConfirmModal();
                 renderDayEvents();
                 renderCalendar();
+
+                // Reset button state
+                btn.textContent = '삭제';
+                btn.disabled = false;
+                btn.style.backgroundColor = '';
+                btn.style.transform = '';
             } else {
                 throw new Error(data.error || 'Delete failed');
             }
-            closeConfirmModal();
         })
         .catch(error => {
-            console.error('Delete failed:', error);
-            alert('일정 삭제에 실패했습니다.');
+            console.error('Delete error:', error);
+            alert('삭제 실패: ' + error.message);
+
+            // Reset button state
+            btn.textContent = '삭제';
+            btn.disabled = false;
+            btn.style.backgroundColor = '';
+            btn.style.transform = '';
+        })
+        .finally(() => {
             closeConfirmModal();
         });
 }
