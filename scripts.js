@@ -6,7 +6,7 @@ let usersMap = {}; // Key: UserUUID, Value: { name, photo }
 
 // --- API Configuration ---
 // --- API Configuration ---
-const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbx6nGgLko0sgFlI6mpPPO7V0yg2v0sEYWIwqkdmsipnzn9OUr1EVMfU40NXTV128OvQ/exec';
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbwDObvkvlAgw4mh0sfcNE06_QAksK0yyBsHQD1v73AyHyMQkuhFbK2vIKUAwap0hrbT/exec';
 const API_PASSWORD = '1234';
 
 // Deletion State
@@ -163,8 +163,8 @@ function toggleAlarmInput() {
     const input = document.getElementById('eventAlarmInput');
 
     input.disabled = !isChecked;
-    // Optionally style the wrapper opacity
-    document.getElementById('alarmWrapper').style.opacity = isChecked ? '1' : '0.5';
+    // Style the input with opacity when disabled
+    input.style.opacity = isChecked ? '1' : '0.5';
 }
 
 function initApp() {
