@@ -46,33 +46,69 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('regPhotoFile').addEventListener('change', updateSaveButton);
     document.getElementById('regPhotoAlbum').addEventListener('change', updateSaveButton);
 
-    // Swipe gesture for month navigation
+    // Swipe gesture for month/year navigation
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
+    let touchEndY = 0;
     const calendarGrid = document.getElementById('calendarGrid');
 
     calendarGrid.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
     calendarGrid.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
     }, { passive: true });
 
     function handleSwipe() {
         const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
 
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swipe left - next month
-                currentDate.setMonth(currentDate.getMonth() + 1);
-            } else {
-                // Swipe right - previous month
-                currentDate.setMonth(currentDate.getMonth() - 1);
-            }
-            renderCalendar();
+        // Determine if horizontal or vertical swipe
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > swipeThreshold) {
+            // Horizontal swipe - month navigation
+            calendarGrid.style.opacity = '0.5';
+            calendarGrid.style.transition = 'opacity 0.2s ease';
+
+            setTimeout(() => {
+                if (diffX > 0) {
+                    // Swipe left - next month
+                    currentDate.setMonth(currentDate.getMonth() + 1);
+                } else {
+                    // Swipe right - previous month
+                    currentDate.setMonth(currentDate.getMonth() - 1);
+                }
+                renderCalendar();
+
+                setTimeout(() => {
+                    calendarGrid.style.opacity = '1';
+                }, 50);
+            }, 200);
+
+        } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > swipeThreshold) {
+            // Vertical swipe - year navigation
+            calendarGrid.style.opacity = '0.5';
+            calendarGrid.style.transition = 'opacity 0.2s ease';
+
+            setTimeout(() => {
+                if (diffY > 0) {
+                    // Swipe up - next year
+                    currentDate.setFullYear(currentDate.getFullYear() + 1);
+                } else {
+                    // Swipe down - previous year
+                    currentDate.setFullYear(currentDate.getFullYear() - 1);
+                }
+                renderCalendar();
+
+                setTimeout(() => {
+                    calendarGrid.style.opacity = '1';
+                }, 50);
+            }, 200);
         }
     }
 });
