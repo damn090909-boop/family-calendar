@@ -241,6 +241,7 @@
             /* 간격 더 좁힘 */
             /* Ensure background doesn't hide gaps */
             background-color: transparent;
+            margin-bottom: 0;
         }
 
         .day-cell {
@@ -645,22 +646,11 @@
             gap: 5px;
         }
 
-        width: 50%;
+        .date-time-row input {
+            width: 50%;
         }
 
         /* Color Picker: 5 columns for 10 items = 2 rows */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-template-rows: auto repeat(6, 1fr);
-            gap: 2px;
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-
         .color-picker-container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
