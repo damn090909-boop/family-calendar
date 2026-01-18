@@ -923,9 +923,15 @@ END:VALARM
 END:VEVENT
 END:VCALENDAR`;
 
-    // Create data URI and open in new window for iOS compatibility
-    const dataUri = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsContent);
-    window.open(dataUri, '_blank');
+    // Create blob URL for iOS compatibility
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+
+    // Use location.href to trigger iOS calendar integration
+    window.location.href = url;
+
+    // Clean up after a delay
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 // --- Delete Logic ---
