@@ -6,7 +6,7 @@ let usersMap = {}; // Key: UserUUID, Value: { name, photo }
 
 // --- API Configuration ---
 // --- API Configuration ---
-const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbwDObvkvlAgw4mh0sfcNE06_QAksK0yyBsHQD1v73AyHyMQkuhFbK2vIKUAwap0hrbT/exec';
+const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbw9hzp72v7W2zvy-qPvCoUa6_BZlEzI0ZvfH6WCgoC7ylBS0Z8zlevjVDslQpkCTpOL/exec';
 const API_PASSWORD = '1234';
 
 // Deletion State
