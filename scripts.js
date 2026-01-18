@@ -802,10 +802,12 @@ function openEditEventForm(index) {
 
     renderColorPicker(evt.color || colorPalette[0]);
     document.getElementById('eventEditorModal').classList.remove('hidden');
+    document.querySelector('.calendar-container').style.overflowY = 'hidden';
 }
 
 function closeEditor() {
     document.getElementById('eventEditorModal').classList.add('hidden');
+    document.querySelector('.calendar-container').style.overflowY = 'auto';
 }
 
 function saveEvent() {
